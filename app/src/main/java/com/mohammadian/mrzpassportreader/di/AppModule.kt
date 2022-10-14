@@ -13,17 +13,19 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object AppModule {
 
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideCameraSelector(): CameraSelector {
         return CameraSelector.Builder()
             .requireLensFacing(LENS_FACING_BACK)
@@ -31,19 +33,19 @@ object AppModule {
     }
 
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideCameraProvider(application: Application): ProcessCameraProvider {
         return ProcessCameraProvider.getInstance(application).get()
     }
 
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideCameraPreview(): Preview {
         return Preview.Builder().build()
     }
 
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideImageCapture(): ImageCapture {
         return ImageCapture.Builder()
             .setFlashMode(FLASH_MODE_AUTO)
@@ -52,7 +54,7 @@ object AppModule {
     }
 
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideImageAnalysis(): ImageAnalysis {
         return ImageAnalysis.Builder()
             .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
@@ -60,7 +62,7 @@ object AppModule {
     }
 
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideCameraExecutor(): ExecutorService {
         return Executors.newSingleThreadExecutor()
     }
