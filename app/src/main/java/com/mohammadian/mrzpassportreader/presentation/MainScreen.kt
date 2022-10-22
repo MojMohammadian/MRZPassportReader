@@ -36,12 +36,11 @@ fun MainScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     var previewView: PreviewView
-
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is MainViewModel.UIEvent.ShowToast -> {
-                    Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, event.message.asString(context), Toast.LENGTH_LONG).show()
                 }
             }
         }

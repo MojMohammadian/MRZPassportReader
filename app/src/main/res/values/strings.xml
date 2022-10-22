@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MRZ Passport Reader</string>
+    <string name="mrz_message">name: %s, documentNo:%s</string>
 </resources>

@@ -4,7 +4,9 @@ import androidx.camera.view.PreviewView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mohammadian.mrzpassportreader.R
 import com.mohammadian.mrzpassportreader.domain.repository.CustomCameraRepo
+import com.mohammadian.mrzpassportreader.util.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -27,16 +29,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             repo.showCameraPreview(previewView, lifecycleOwner).collectLatest {
 
-                val mrz = """
-                    name: ${it.givenNames}
-                    surname: ${it.surname}
-                    date of birth: ${it.dateOfBirth}
-                    passport number: ${it.documentNumber}
-                """.trimIndent()
-
                 _eventFlow.emit(
                     UIEvent.ShowToast(
-                        mrz
+                        UiText.StringResource(R.string.mrz_message,it.givenNames,it.documentNumber)
                     )
                 )
 
@@ -46,7 +41,7 @@ class MainViewModel @Inject constructor(
     }
 
     sealed class UIEvent {
-        data class ShowToast(val message: String) : UIEvent()
+        data class ShowToast(val message: UiText) : UIEvent()
     }
 
 }
